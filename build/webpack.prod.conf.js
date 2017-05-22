@@ -8,9 +8,6 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 config.output.filename = 'vue-image-lightbox.min.js'
 config.output.libraryTarget = 'commonjs2'
 
-// config.entry = './src/main.js'
-config.entry = './src/components/Lightbox.vue'
-
 // whether to generate source map for production files.
 // disabling this can speed up the build.
 var SOURCE_MAP = true
