@@ -53,7 +53,6 @@ export default {
       select: this.startAt,
       thumbSelect: this.startAt,
       lightBoxOn: this.showLightBox,
-      countImages: this.images.length,
       displayThumbs: this.images.slice(0, this.nThumbs),
       timer: null,
 
@@ -62,16 +61,8 @@ export default {
   },
 
   computed: {
-    imagesSrc() {
-      if (this.siteLoading) {
-        return this.images.map(({ src }) => ({
-          src,
-          loading: this.siteLoading,
-          error: this.siteLoading,
-        }))
-      }
-
-      return this.images.map(({ src }) => src)
+    countImages() { 
+      return this.images.length
     },
 
     imagesThumb() {
@@ -87,17 +78,16 @@ export default {
     },
   },
 
-  mounted() {
-
-    if (this.autoPlay) {
-      this.timer = setInterval(() => {
-        this.nextImage()
-      }, this.autoPlayTime)
-    }
-  },
-
-
   watch: {
+    startAt() {
+      this.$set(this, 'select', this.startAt)
+      this.$set(this, 'thumbSelect', this.startAt)
+    },
+
+    images() {
+      this.$set(this, 'displayThumbs', this.images.slice(0, this.nThumbs))
+    },
+
     select() {
       let halfDown = Math.floor(this.nThumbs / 2)
       let mod = 1 - (this.nThumbs % 2)
@@ -119,6 +109,24 @@ export default {
       this.$set(this, 'beginThumbIndex', this.select - halfDown + mod)
       this.$set(this, 'thumbSelect', halfDown - mod)
       this.$set(this, 'displayThumbs', this.images.slice(this.select - halfDown + mod, this.select + halfDown + 1))
+    },
+
+    lightBoxOn(value) {
+      if (document != null) {
+        if (value) {
+          document.getElementsByTagName('body')[0].classList.add('vue-lb-open')
+        } else {
+          document.getElementsByTagName('body')[0].classList.remove('vue-lb-open')
+        }
+      } 
+    },
+  },
+
+  mounted() {
+    if (this.autoPlay) {
+      this.timer = setInterval(() => {
+        this.nextImage()
+      }, this.autoPlayTime)
     }
   },
 
@@ -138,7 +146,6 @@ export default {
 
     closeLightBox() {
       this.$set(this, 'lightBoxOn', false)
-
       document.removeEventListener('keydown', this.addKeyEvent)
     },
 
@@ -148,7 +155,7 @@ export default {
 
     previousImage() {
       this.$set(this, 'select', ((this.select - 1) + this.countImages) % this.countImages)
-    }
+    },
   },
 
 

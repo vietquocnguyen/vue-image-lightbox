@@ -19,13 +19,23 @@ yarn dev
 Install the package:
 
 ```
-npm install vue-image-lightbox  
-yarn add vue-image-lightbox
+npm install vue-image-lightbox vue-lazyload vue-touch@next
+yarn add vue-image-lightbox vue-lazyload vue-touch@next
 ```
 
 Then import it in your project
+At your entry point (`main.js` normally)
+```javascript
+import Vue from 'vue'
+import VueLazyLoad from 'vue-lazyload'
+import VueTouch from 'vue-touch'
+...
+Vue.use(VueLazyLoad)
+Vue.use(VueTouch, { name: 'v-touch' })
+```
 
-```js
+and use the lightbox:
+```javascript
 import Lightbox from 'vue-image-lightbox'
 
 export default {
@@ -173,3 +183,7 @@ How to use:
 ## CREDITS
 
 Most of the CSS belongs to [react-images](https://github.com/jossmac/react-images)
+
+### Contributors:
+- [@imcvampire](https://github.com/imcvampire)
+- [@krystalcampioni](https://github.com/krystalcampioni) 

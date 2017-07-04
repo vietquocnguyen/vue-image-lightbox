@@ -3,6 +3,7 @@ const config = require('./webpack.base.conf')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 config.devtool = '#source-map'
 
@@ -32,6 +33,8 @@ config.plugins = (config.plugins || []).concat([
   // }),
 
   new UglifyJSPlugin({
+    sourceMap: true,
+    
     compress: {
       warnings: false,
       drop_debugger: true,
@@ -51,6 +54,14 @@ config.plugins = (config.plugins || []).concat([
       screw_ie8: true,
     }
   }),
+
+  new OptimizeCSSPlugin({
+      cssProcessorOptions: {
+        options: {
+          safe: true
+        }
+      }
+    }),
 
   new webpack.optimize.OccurrenceOrderPlugin(),
 ])
